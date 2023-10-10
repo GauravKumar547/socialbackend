@@ -66,7 +66,7 @@ router.get("/:id", async (req, res) => {
     }
 });
 // get timeline posts
-router.get("/:id/timeline", async (req, res) => {
+router.get("/timeline/:id", async (req, res) => {
     try {
         const currentUser = await User.findById(req.params.id);
         const userPosts = await Post.find({ user_id: currentUser._id });
@@ -76,6 +76,16 @@ router.get("/:id/timeline", async (req, res) => {
             })
         );
         res.status(200).json(userPosts.concat(...friendPosts));
+    } catch (error) {
+        res.status(500).json(err);
+    }
+});
+// get all user's posts
+router.get("/profile/:username", async (req, res) => {
+    try {
+        const currentUser = await User.findOne({ username: req.params.username });
+        const userPosts = await Post.find({ user_id: currentUser._id });
+        res.status(200).json(userPosts);
     } catch (error) {
         res.status(500).json(err);
     }
