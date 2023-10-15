@@ -15,7 +15,8 @@ router.post("/register", async (req, res) => {
         });
         // saving user
         const user = await newUser.save();
-        res.status(200).json(user);
+        const { password, __v, ...userdetails } = user._doc;
+        res.status(200).json(userdetails);
     } catch (error) {
         res.status(500).json(error);
     }
@@ -33,7 +34,8 @@ router.post("/login", async (req, res) => {
         if (!validPass) {
             return res.status(400).json("wrong password");
         } else {
-            res.status(200).json(user);
+            const { password, __v, ...userdetails } = user._doc;
+            res.status(200).json(userdetails);
         }
     } catch (error) {
         res.status(500).json(error);
