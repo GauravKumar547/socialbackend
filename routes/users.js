@@ -113,4 +113,22 @@ router.put("/:id/unfollow", async (req, res) => {
         res.status(403).json("You cannot unfollow yourself");
     }
 });
+// update profilePicture of a user
+router.put("/:id/profile_pic", async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id);
+        await user.updateOne({ $set: { profilePicture: req.body.pic } });
+    } catch (error) {
+        res.status(500).json(error);
+    }
+});
+// update coverPicture of a user
+router.put("/:id/cover_pic", async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id);
+        await user.updateOne({ $set: { coverPicture: req.body.pic } });
+    } catch (error) {
+        res.status(500).json(error);
+    }
+});
 module.exports = router;
