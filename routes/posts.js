@@ -87,7 +87,7 @@ router.get("/profile/:username", async (req, res) => {
         const userPosts = await Post.find({ user_id: currentUser._id });
         res.status(200).json(userPosts);
     } catch (error) {
-        res.status(500).json(err);
+        res.status(500).json(error);
     }
 });
 
