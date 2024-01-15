@@ -27,10 +27,9 @@ app.use(helmet());
 app.use(morgan("common"));
 app.use(cors());
 
-app.use("/", (req, res) => {
+app.get("/", (req, res) => {
     res.json({ message: "Hello its socialize backend" });
 });
-
 
 app.use("/api/users", userRoute);
 app.use("/api/auth", authRoute);
@@ -38,7 +37,7 @@ app.use("/api/posts", postsRoute);
 app.use("/api/conversations", conversationsRoute);
 app.use("/api/messages", messagesRoute);
 
-app.listen(8000, () => {
+app.listen(process.env.PORT, () => {
     console.log("Server is up!");
 });
 let users = [];
