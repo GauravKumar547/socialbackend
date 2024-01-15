@@ -144,6 +144,7 @@ router.get("/all", async (req, res) => {
                 username: user.username,
                 profilePicture: user.profilePicture,
                 email: user.email,
+                id: user.id,
             };
         });
         res.json({
