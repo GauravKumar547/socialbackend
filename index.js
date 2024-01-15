@@ -26,6 +26,12 @@ app.use(express.json());
 app.use(helmet());
 app.use(morgan("common"));
 app.use(cors());
+
+app.use("/", (req, res) => {
+    res.json({ message: "Hello its socialize backend" });
+});
+
+
 app.use("/api/users", userRoute);
 app.use("/api/auth", authRoute);
 app.use("/api/posts", postsRoute);
