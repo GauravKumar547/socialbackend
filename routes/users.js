@@ -131,4 +131,26 @@ router.put("/:id/cover_pic", async (req, res) => {
         res.status(500).json(error);
     }
 });
+
+router.get("/all", async (req, res) => {
+    try {
+        const name = req.query.name;
+        const regex = new RegExp(name, "i");
+        const users = await User.find({
+            $or: [{ username: { $regex: regex } }, { email: { $regex: regex } }],
+        });
+        const usersData = users.map((user) => {
+            return {
+                username: user.username,
+                profilePicture: user.profilePicture,
+                email: user.email,
+            };
+        });
+        res.json({
+            users: usersData,
+        });
+    } catch (error) {
+        res.status(500).json(error);
+    }
+});
 module.exports = router;
