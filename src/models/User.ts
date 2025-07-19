@@ -1,39 +1,40 @@
-const mongoose = require("mongoose");
+import mongoose, { Schema } from 'mongoose';
+import { IUser } from '../types';
 
-const UserSchema = new mongoose.Schema(
+const UserSchema: Schema = new Schema(
     {
         username: {
             type: String,
-            require: true,
+            required: true,
             min: 3,
             max: 20,
             unique: true,
         },
         email: {
             type: String,
-            require: true,
+            required: true,
             unique: true,
             max: 50,
         },
         password: {
             type: String,
-            require: true,
+            required: true,
             min: 6,
         },
         profilePicture: {
             type: String,
-            default: "",
+            default: '',
         },
         coverPicture: {
             type: String,
-            default: "",
+            default: '',
         },
         followers: {
-            type: Array,
+            type: [Schema.Types.ObjectId],
             default: [],
         },
         following: {
-            type: Array,
+            type: [Schema.Types.ObjectId],
             default: [],
         },
         isAdmin: {
@@ -61,4 +62,4 @@ const UserSchema = new mongoose.Schema(
     }
 );
 
-module.exports = mongoose.model("User", UserSchema);
+export default mongoose.model<IUser>('User', UserSchema); 
