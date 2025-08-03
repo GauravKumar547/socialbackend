@@ -6,7 +6,9 @@ import {
     getCurrentUser,
     getUserSessions,
     deleteSession,
-    deleteAllSessions
+    deleteAllSessions,
+    forgotPassword,
+    resetPassword
 } from '../controllers/authController';
 import { requireAuth } from '../middleware/sessionMiddleware';
 
@@ -15,6 +17,8 @@ const router = Router();
 // Public routes
 router.post('/register', register);
 router.post('/login', login);
+router.post('/forgot-password', forgotPassword);
+router.post('/reset-password', resetPassword);
 
 // Protected routes
 router.post('/logout', requireAuth, logout);

@@ -16,7 +16,7 @@ const router = Router();
 
 // Public routes
 router.get('/', getUser);
-router.get('/friends/:user_id', getFriends);
+router.get('/friends', getFriends);
 router.get('/all', searchUsers);
 
 // Protected routes

@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
 import User from '../models/User';
-import { IUserResponse, FriendListResponse, UserSearchResponse } from '../types';
+import { IUserResponse, FriendListResponse, UserSearchResponse, IUser } from '../types';
 import { createError } from '../utils/errorHandler';
 import { transformUserToSafeResponse } from '../utils/transformers';
 
@@ -61,8 +61,7 @@ export class UserService {
     /**
      * Get user's friends
      */
-    static async getUserFriends(userId: string): Promise<FriendListResponse[]> {
-        const user = await User.findById(userId);
+    static async getUserFriends(user: IUserResponse): Promise<FriendListResponse[]> {
         if (!user) {
             throw createError('User not found', 404);
         }

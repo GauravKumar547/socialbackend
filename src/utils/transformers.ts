@@ -42,7 +42,7 @@ export const transformPostToResponse = (post: IPost): IPostResponse => {
     const postObj = post.toObject();
     return {
         _id: postObj._id.toString(),
-        user_id: postObj.user_id.toString(),
+        user_id: postObj.user_id,
         description: postObj.description,
         image: postObj.image,
         likes: objectIdsToStrings(postObj.likes),

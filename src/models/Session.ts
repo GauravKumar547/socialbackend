@@ -42,7 +42,6 @@ const SessionSchema: Schema = new Schema(
 );
 
 // Index for performance
-SessionSchema.index({ session_id: 1 });
 SessionSchema.index({ user_id: 1 });
 SessionSchema.index({ expires_at: 1 });
 

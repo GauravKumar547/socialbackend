@@ -1,4 +1,4 @@
-import { Response } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import { AppError } from '../types';
 
 export class CustomError extends Error implements AppError {
@@ -33,12 +33,10 @@ export const handleError = (error: Error, res: Response): void => {
     }
 };
 
-export const asyncHandler = <T extends any[], R>(
-    fn: (...args: T) => Promise<R>
+export const asyncHandler = (
+    fn: (req: Request, res: Response, next: NextFunction) => Promise<any>
 ) => {
-    return (...args: T): Promise<R> => {
-        return Promise.resolve(fn(...args)).catch((error: Error) => {
-            throw error;
-        });
+    return (req: Request, res: Response, next: NextFunction) => {
+        Promise.resolve(fn(req, res, next)).catch(next);
     };
 }; 

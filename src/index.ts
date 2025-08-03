@@ -8,6 +8,7 @@ import { createServer } from 'http';
 import connectDB from './config/database';
 import { initializeSocket } from './config/socket';
 import { sessionMiddleware } from './middleware/sessionMiddleware';
+import { handleError } from './utils/errorHandler';
 
 // Import routes
 import authRoutes from './routes/auth';
@@ -31,8 +32,10 @@ app.use(express.json());
 app.use(helmet());
 app.use(morgan('common'));
 app.use(cors({
-    origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+    origin: process.env.FRONTEND_URL,
     credentials: true, // Important for cookies
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 app.use(cookieParser());
 
@@ -55,11 +58,7 @@ app.use('/api/messages', messageRoutes);
 
 // Error handling middleware
 app.use((err: Error, _req: Request, res: Response, _next: any) => {
-    console.error('Unhandled error:', err);
-    res.status(500).json({
-        success: false,
-        error: 'Internal server error',
-    });
+    handleError(err, res);
 });
 
 // 404 handler

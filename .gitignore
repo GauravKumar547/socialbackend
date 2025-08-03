@@ -1,4 +1,8 @@
+.DS_Store
+*.log
 node_modules/
 .env
 *.lock
 dist
+package-lock.json
+yarn.lock

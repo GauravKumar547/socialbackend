@@ -10,7 +10,7 @@ const router = Router();
 
 // Protected routes
 router.post('/', requireAuth, createConversation);
-router.get('/user/:user_id', requireAuth, getConversation);
+router.get('/:user_id', requireAuth, getConversation);
 router.get('/:first_user_id/:second_user_id', requireAuth, getConversationBetweenUsers);
 
 export default router; 

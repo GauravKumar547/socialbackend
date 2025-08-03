@@ -1,10 +1,11 @@
 import mongoose, { Schema } from 'mongoose';
 import { IPost } from '../types';
+import User from './User';
 
 const PostSchema: Schema = new Schema(
     {
         user_id: {
-            type: Schema.Types.ObjectId,
+            type: Schema.Types.ObjectId || User,
             ref: 'User',
             required: true,
         },

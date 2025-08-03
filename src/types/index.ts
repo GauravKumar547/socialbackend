@@ -17,10 +17,10 @@ export interface IUser extends BaseDocument {
     followers: Types.ObjectId[];
     following: Types.ObjectId[];
     isAdmin: boolean;
-    description?: string;
-    city?: string;
-    from?: string;
-    relationship?: 1 | 2 | 3;
+    description?: string | undefined;
+    city?: string | undefined;
+    from?: string | undefined;
+    relationship?: 1 | 2 | 3 | undefined;
 }
 
 export interface IUserResponse {
@@ -123,6 +123,19 @@ export interface AuthRequest extends Request {
     };
 }
 
+export interface ForgotPasswordRequest extends Request {
+    body: {
+        email: string;
+    };
+}
+
+export interface ResetPasswordRequest extends Request {
+    body: {
+        token: string;
+        newPassword: string;
+    };
+}
+
 export interface UserRequest extends Request {
     body: {
         user_id: string;
@@ -131,7 +144,7 @@ export interface UserRequest extends Request {
         pic?: string;
     };
     params: {
-        id: string;
+        id?: string;
         user_id?: string;
     };
     query: {
@@ -148,7 +161,7 @@ export interface PostRequest extends Request {
         image?: string;
     };
     params: {
-        id: string;
+        id?: string;
         username?: string;
     };
 }

@@ -107,14 +107,7 @@ export const getTimelinePosts = asyncHandler(async (req: AuthenticatedRequest, r
     if (!req.user) {
         throw createError('Not authenticated', 401);
     }
-
-    const { id } = req.params;
-
-    if (!id) {
-        throw createError('User ID is required', 400);
-    }
-
-    const posts = await PostService.getTimelinePosts(id);
+    const posts = await PostService.getTimelinePosts(req.user);
     sendData<IPostResponse[]>(res, posts);
 });
 

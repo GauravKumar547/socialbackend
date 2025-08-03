@@ -60,14 +60,13 @@ export const getUser = asyncHandler(async (req: UserRequest, res: Response): Pro
 /**
  * Get friends
  */
-export const getFriends = asyncHandler(async (req: UserRequest, res: Response): Promise<void> => {
-    const { user_id } = req.params;
+export const getFriends = asyncHandler(async (req: AuthenticatedRequest, res: Response): Promise<void> => {
 
-    if (!user_id) {
+    if (!req.user?._id) {
         throw createError('User ID is required', 400);
     }
 
-    const friends = await UserService.getUserFriends(user_id);
+    const friends = await UserService.getUserFriends(req.user);
     sendData<FriendListResponse[]>(res, friends);
 });
 
