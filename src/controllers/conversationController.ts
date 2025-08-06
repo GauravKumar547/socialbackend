@@ -12,15 +12,15 @@ export const createConversation = asyncHandler(async (req: AuthenticatedRequest,
         throw createError('Not authenticated', 401);
     }
 
-    const { receiverId } = req.body;
+    const { receiver_id } = req.body;
 
-    if (!receiverId) {
+    if (!receiver_id) {
         throw createError('Receiver ID is required', 400);
     }
 
     const conversation = await ConversationService.createConversation(
         req.user._id,
-        receiverId
+        receiver_id
     );
 
     sendData<IConversationResponse>(res, conversation);

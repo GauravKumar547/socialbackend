@@ -61,7 +61,10 @@ export class UserService {
     /**
      * Get user's friends
      */
-    static async getUserFriends(user: IUserResponse): Promise<FriendListResponse[]> {
+    static async getUserFriends(user: IUserResponse | string): Promise<FriendListResponse[]> {
+        if (typeof user === 'string') {
+            user = await UserService.getUser(user);
+        }
         if (!user) {
             throw createError('User not found', 404);
         }

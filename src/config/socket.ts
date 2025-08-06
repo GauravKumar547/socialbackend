@@ -51,6 +51,7 @@ const initializeSocket = (server: HTTPServer): SocketIOServer => {
         socket.on('disconnect', () => {
             console.log('user disconnected');
             removeUser(socket.id);
+            socketIO.emit('getUsers', users);
         });
     });
 
