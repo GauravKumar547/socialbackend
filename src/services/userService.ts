@@ -179,12 +179,12 @@ export class UserService {
     /**
      * Search users
      */
-    static async searchUsers(name: string): Promise<UserSearchResponse> {
-        if (!name) {
+    static async searchUsers(query: string): Promise<UserSearchResponse> {
+        if (!query) {
             throw createError('Name parameter is required', 400);
         }
 
-        const regex = new RegExp(name, 'i');
+        const regex = new RegExp(query, 'i');
         const users = await User.find({
             $or: [{ username: { $regex: regex } }, { email: { $regex: regex } }],
         });
@@ -193,7 +193,22 @@ export class UserService {
             username: user.username,
             profilePicture: user.profilePicture,
             email: user.email,
-            id: (user as any)._id.toString(),
+            _id: (user as any)._id.toString(),
+        }));
+
+        return { users: usersData };
+    }
+    /**
+     * Get all users
+     */
+    static async getAllUsers(): Promise<UserSearchResponse> {
+        const users = await User.find();
+
+        const usersData = users.map(user => ({
+            username: user.username,
+            profilePicture: user.profilePicture,
+            email: user.email,
+            _id: (user as any)._id.toString(),
         }));
 
         return { users: usersData };

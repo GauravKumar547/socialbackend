@@ -159,12 +159,22 @@ export const updateCoverPicture = asyncHandler(async (req: AuthenticatedRequest,
  * Search all users
  */
 export const searchUsers = asyncHandler(async (req: UserRequest, res: Response): Promise<void> => {
-    const { name } = req.query;
+    const { q } = req.query;
 
-    if (!name) {
+    if (!q) {
         throw createError('Name parameter is required', 400);
     }
 
-    const response = await UserService.searchUsers(name as string);
+    const response = await UserService.searchUsers(q as string);
+    sendData<UserSearchResponse>(res, response);
+});
+
+
+/**
+ * Get all users
+ */
+export const getAllUsers = asyncHandler(async (req: AuthenticatedRequest, res: Response): Promise<void> => {
+
+    const response = await UserService.getAllUsers();
     sendData<UserSearchResponse>(res, response);
 }); 

@@ -9,6 +9,7 @@ import {
     updateProfilePicture,
     updateCoverPicture,
     searchUsers,
+    getAllUsers
 } from '../controllers/userController';
 import { requireAuth } from '../middleware/sessionMiddleware';
 
@@ -17,7 +18,8 @@ const router = Router();
 // Public routes
 router.get('/', getUser);
 router.get('/friends', getFriends);
-router.get('/all', searchUsers);
+router.get('/search', searchUsers);
+router.get('/all', getAllUsers);
 
 // Protected routes
 router.put('/:id', requireAuth, updateUser);

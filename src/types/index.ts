@@ -151,6 +151,7 @@ export interface UserRequest extends Request {
         user_id?: string;
         username?: string;
         name?: string;
+        q?: string;
     };
 }
 
@@ -219,7 +220,7 @@ export interface UserSearchResponse {
         username: string;
         profilePicture: string;
         email: string;
-        id: string;
+        _id: string;
     }>;
 }
 

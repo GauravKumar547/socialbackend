@@ -68,10 +68,10 @@ export class AuthService {
         }
 
         // Compare password
-        // const validPass = await bcrypt.compare(password, user.password);
-        // if (!validPass) {
-        //     throw createError('Wrong password', 400);
-        // }
+        const validPass = await bcrypt.compare(password, user.password);
+        if (!validPass) {
+            throw createError('Wrong password', 400);
+        }
 
         const userResponse = transformUserToSafeResponse(user);
 
