@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
 import User from '../models/User';
-import { IUserResponse, FriendListResponse, UserSearchResponse, IUser } from '../types';
+import { IUserResponse, FriendListResponse, UserSearchResponse } from '../types';
 import { createError } from '../utils/errorHandler';
 import { transformUserToSafeResponse } from '../utils/transformers';
 
@@ -201,8 +201,10 @@ export class UserService {
     /**
      * Get all users
      */
-    static async getAllUsers(): Promise<UserSearchResponse> {
-        const users = await User.find();
+    static async getAllUsers(user_id: string): Promise<UserSearchResponse> {
+        const users = await User.find({
+            _id: { $ne: user_id }
+        });
 
         const usersData = users.map(user => ({
             username: user.username,

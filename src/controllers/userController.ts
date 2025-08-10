@@ -174,7 +174,6 @@ export const searchUsers = asyncHandler(async (req: UserRequest, res: Response):
  * Get all users
  */
 export const getAllUsers = asyncHandler(async (req: AuthenticatedRequest, res: Response): Promise<void> => {
-
-    const response = await UserService.getAllUsers();
+    const response = await UserService.getAllUsers(req.user?._id ?? "");
     sendData<UserSearchResponse>(res, response);
 }); 

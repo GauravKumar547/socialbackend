@@ -173,7 +173,7 @@ export interface ConversationRequest extends Request {
         receiver_id: string;
     };
     params: {
-        user_id: string;
+        user_id?: string;
         first_user_id?: string;
         second_user_id?: string;
     };
@@ -186,7 +186,7 @@ export interface MessageRequest extends Request {
         text: string;
     };
     params: {
-        conversation_id: string;
+        conversation_id?: string;
     };
 }
 

@@ -3,7 +3,6 @@ import User from '../models/User';
 import { IPostResponse, IUserResponse } from '../types';
 import { createError } from '../utils/errorHandler';
 import { transformPostToResponse } from '../utils/transformers';
-import mongoose from 'mongoose';
 
 export class PostService {
     /**
@@ -97,14 +96,13 @@ export class PostService {
  * Get timeline posts for a user
  */
     static async getTimelinePosts(user: IUserResponse): Promise<IPostResponse[]> {
-        const userPosts = await Post.find().populate('user_id');
+        const userPosts = await Post.find({ user_id: user._id }).populate('user_id');
+        const friendPosts = await Promise.all(
+            user.following.map(friendId => Post.find({ user_id: friendId }).populate('user_id'))
+        );
 
-        // const friendPosts = await Promise.all(
-        //     user.following.map(friendId => Post.find({ user_id: friendId }).populate('user_id'))
-        // );
-
-        // const allPosts = userPosts.concat(...friendPosts);
-        return userPosts.map(post => transformPostToResponse(post));
+        const allPosts = userPosts.concat(...friendPosts);
+        return allPosts.map(post => transformPostToResponse(post));
     }
 
     /**
