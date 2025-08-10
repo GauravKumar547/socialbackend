@@ -19,11 +19,16 @@ const getUser = (user_id: string): SocketUser | undefined => {
 };
 
 const initializeSocket = (server: HTTPServer): SocketIOServer => {
+    const originsEnv = process.env.FRONTEND_URL || 'http://localhost:5173';
+    const allowedOrigins = originsEnv.split(',').map((o) => o.trim());
+
     const socketIO = new SocketIOServer(server, {
         cors: {
-            origin: 'http://localhost:5173',
+            origin: allowedOrigins,
             methods: ['GET', 'POST'],
+            credentials: true,
         },
+        transports: ['websocket', 'polling'],
     });
 
     socketIO.on('connection', (socket: Socket) => {

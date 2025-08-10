@@ -24,6 +24,9 @@ dotenv.config();
 const app: Application = express();
 const server = createServer(app);
 
+// Behind a proxy (Render), trust the first proxy so secure cookies and IPs work correctly
+app.set('trust proxy', 1);
+
 // Connect to MongoDB
 connectDB();
 
@@ -32,7 +35,9 @@ app.use(express.json());
 app.use(helmet());
 app.use(morgan('common'));
 app.use(cors({
-    origin: process.env.FRONTEND_URL,
+    origin: (process.env.FRONTEND_URL || '').split(',').map((o) => o.trim()).filter(Boolean).length
+        ? (process.env.FRONTEND_URL as string).split(',').map((o) => o.trim())
+        : process.env.FRONTEND_URL || true,
     credentials: true, // Important for cookies
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
