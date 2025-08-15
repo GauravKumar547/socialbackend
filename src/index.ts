@@ -16,21 +16,17 @@ import userRoutes from './routes/users';
 import postRoutes from './routes/posts';
 import conversationRoutes from './routes/conversations';
 import messageRoutes from './routes/messages';
+import { initializeCronJob } from './utils/cronJob';
 
-// Load environment variables
 dotenv.config();
 
-// Initialize express app
 const app: Application = express();
 const server = createServer(app);
 
-// Behind a proxy (Render), trust the first proxy so secure cookies and IPs work correctly
 app.set('trust proxy', 1);
 
-// Connect to MongoDB
 connectDB();
 
-// Middleware
 app.use(express.json());
 app.use(helmet());
 app.use(morgan('common'));
@@ -44,29 +40,24 @@ app.use(cors({
 }));
 app.use(cookieParser());
 
-// Session middleware - must come before routes
 app.use(sessionMiddleware);
 
-// Health check endpoint
 app.get('/', (_req: Request, res: Response) => {
     res.json({ message: 'Hello its socialize backend' });
 });
 
 
 
-// API Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/posts', postRoutes);
 app.use('/api/conversations', conversationRoutes);
 app.use('/api/messages', messageRoutes);
 
-// Error handling middleware
 app.use((err: Error, _req: Request, res: Response, _next: any) => {
     handleError(err, res);
 });
 
-// 404 handler
 app.use('*', (_req: Request, res: Response) => {
     res.status(404).json({
         success: false,
@@ -74,13 +65,13 @@ app.use('*', (_req: Request, res: Response) => {
     });
 });
 
-// Start server
 const PORT = process.env.PORT || 8800;
 server.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
 
-// Initialize Socket.IO
 initializeSocket(server);
+
+initializeCronJob();
 
 export default app; 
